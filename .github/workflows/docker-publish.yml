@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # 将权限声明放在 job 级别
     permissions:
       contents: read
       packages: write
@@ -16,7 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 添加 Docker 编译插件 (QEMU 和 Buildx)
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -35,7 +33,5 @@ jobs:
         with:
           context: .
           push: true
-          # 强制全小写地址
           tags: ghcr.io/sennagi/mgaide-api-go:latest
-          # 禁用缓存以防万一
           no-cache: true
