@@ -37,5 +37,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          # 修复：手动指定小写的镜像名称
+          tags: ghcr.io/sennagi/mgaide-api-go:latest
           labels: ${{ steps.meta.outputs.labels }}
