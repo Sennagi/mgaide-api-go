@@ -4,8 +4,8 @@ FROM golang:1.23-alpine AS builder
 # 设置工作目录
 WORKDIR /app
 
-# 设置代理加速下载（这是解决 go mod download 失败的关键）
-ENV GOPROXY=https://goproxy.cn,direct
+# 设置代理加速下载（改用全球通用代理，适应 GitHub 美国服务器）
+ENV GOPROXY=https://proxy.golang.org,direct
 
 # 复制依赖文件
 COPY go.mod go.sum ./
