@@ -6,20 +6,20 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Database configuration
-const (
-	dbUser     = "MGAide"
-	dbPassword = "2550505fox"
-	dbHost     = "1Panel-mysql-dgO0"
-	dbPort     = "3306"
-	dbName     = "mgaide"
-)
+// getEnv 辅助函数：读取环境变量，带默认值
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
+}
 
 var db *sql.DB
 
@@ -49,8 +49,14 @@ type SyncPushRequest struct {
 }
 
 func initDB() {
+	user := getEnv("DB_USER", "MGAide")
+	password := getEnv("DB_PASSWORD", "REPLACE_ME_IN_1PANEL")
+	host := getEnv("DB_HOST", "1Panel-mysql-dgO0")
+	port := getEnv("DB_PORT", "3306")
+	dbname := getEnv("DB_NAME", "mgaide")
+
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		dbUser, dbPassword, dbHost, dbPort, dbName)
+		user, password, host, port, dbname)
 	
 	var err error
 	db, err = sql.Open("mysql", dsn)
